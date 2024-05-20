@@ -1,0 +1,37 @@
+.appear {
+	/* Uncomment as needed. */
+	/* width: 100px; */
+	/* height: 100px; */
+	/* background-color: deeppink; */
+	animation-name: flip;
+	animation-duration: 0.5s;
+}
+    
+@keyframes flip {
+	/* We set opacity to zero at the start 
+	of the animation. At 50% play time, 
+	here after 2s, the HTML element will
+	be fully opaque (appear). Then */
+	0% { transform: rotateY(90deg); } 
+	100% { transform: rotateY(0deg); } 
+}
+.fadeIn {
+	/* Uncomment as needed. */
+	/* width: 100px; */
+	/* height: 100px; */
+	/* background-color: deeppink; */
+	animation-name: fadeIn;
+	animation-duration: 0.5s;
+}
+    
+@keyframes fadeIn {
+	/* We set opacity to zero at the start 
+	of the animation. At 50% play time, 
+	here after 2s, the HTML element will
+	be fully opaque (appear). Then */
+	0% { opacity: 0; } 
+	100% { opacity: 0.3;}
+}
+[role=progressbar] {
+	transition-property: width !important;
+}
