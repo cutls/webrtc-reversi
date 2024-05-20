@@ -15,6 +15,7 @@ export async function create(messageProcessor: (message: any) => void) {
         if (!peerConn) return console.error('No peer channel')
         const gotAnswer = (answer: RTCSessionDescriptionInit) => {
             console.log('Initializing ...', answer)
+            if (typeof answer === 'string') answer = JSON.parse(answer)
             peerConn.setRemoteDescription(new RTCSessionDescription(answer))
         }
         dataChannel.onopen = (e) => {
