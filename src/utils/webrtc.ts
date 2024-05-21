@@ -1,6 +1,6 @@
 import { v4 as uuid } from 'uuid'
 const client = typeof window !== 'undefined'
-const icsJson = JSON.parse(process.env.ICS_JSON || '[')
+const icsJson = JSON.parse(process.env.NEXT_PUBLIC_ICS_JSON || '[]')
 const rpc = client ? window.RTCPeerConnection || (window as any).mozRTCPeerConnection || (window as any).webkitRTCPeerConnection || (window as any).msRTCPeerConnection : null
 const peerConn = rpc ? new rpc({
     iceServers: [
