@@ -15,9 +15,9 @@ export default function Initial({ roomUrl }: IProps) {
 			<Text fontSize={22}>部屋を作る</Text>
 			<Text>このURLを他の人に共有してください。</Text>
 			<InputGroup size="md">
-				<Input readOnly placeholder="部屋名" value={roomUrl} />
+				<Input readOnly placeholder="しばらくお待ちください。" value={roomUrl} />
 				<InputRightElement width="4.5rem">
-					<Button h="1.75rem" size="sm" onClick={() => (isShareable ? navigator.share({ url: roomUrl, text: '2人対戦専用オセロ' }) : navigator.clipboard.writeText(roomUrl))}>
+					<Button h="1.75rem" size="sm" isLoading={!roomUrl} onClick={() => (isShareable ? navigator.share({ url: roomUrl, text: '2人対戦専用オセロ' }) : navigator.clipboard.writeText(roomUrl))}>
 						{isShareable ? '共有' : 'コピー'}
 					</Button>
 				</InputRightElement>
