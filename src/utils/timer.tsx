@@ -24,7 +24,6 @@ export const TimerProvider: React.FC<TimerProviderProps> = ({ children }) => {
     setLastTime(sec)
     let internal = useSec
     timer = setInterval(() => {
-      console.log(timerNum, internal)
       internal = internal - 1000
       setLastTime(internal / 1000)
       if (internal < 0 && timer) {

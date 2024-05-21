@@ -75,7 +75,6 @@ export default function Home() {
         const newPlaceable = passCheck(config.rows, board, getZeroBoard(config.rows), turn)
         setPlaceable(newPlaceable)
         const isPlaceable = newPlaceable.flat().filter(v => v === 1).length > 0
-        console.log(isMyTurn, force, isPlaceable, 'isPlaceable')
         if (!force && isPlaceable) return
         const nextPass = passCheck(config.rows, board, placeable, turn === 1 ? 2 : 1)
         const nextAlsoPass = nextPass.flat().filter(v => v === 1).length > 0
@@ -116,7 +115,6 @@ export default function Home() {
         for (const dx of a) for (const dy of a) reversi(config.rows, x, y, dx, dy, turn, newOne, true)
         setBoard(newOne)
         setTurn(turn === 1 ? 2 : 1)
-        console.log(channel)
         if (channel && channel.readyState === 'open') {
             channel.send(JSON.stringify({ type: 'update', data: { board: newOne, turn: turn === 1 ? 2 : 1 } }))
         } else {

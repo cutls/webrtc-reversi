@@ -9,7 +9,6 @@ const peerConn = rpc ? new rpc({
     ]
 }) : undefined
 const id = uuid()
-console.log('Call create(), or join("some offer")')
 export async function create(messageProcessor: (message: any) => void) {
     const PEER_ID = localStorage.getItem('peerId') || id
     localStorage.setItem('peerId', PEER_ID)
@@ -25,7 +24,6 @@ export async function create(messageProcessor: (message: any) => void) {
             peerConn.setRemoteDescription(new RTCSessionDescription(answer))
         }
         dataChannel.onopen = (e) => {
-            console.log('Say things with say("hi")')
             dataChannel.send(JSON.stringify({ type: 'start' }))
         }
         dataChannel.onmessage = (e) => messageProcessor(JSON.parse(e.data))
@@ -37,7 +35,6 @@ export async function create(messageProcessor: (message: any) => void) {
 
         peerConn.onicecandidate = async (e) => {
             if (e.candidate === null) {
-                console.log('Get joiners to call: ', 'join(', JSON.stringify(peerConn.localDescription), ')')
                 await fetch('/api/update', {
                     method: 'POST',
                     body: JSON.stringify({ data: JSON.stringify(peerConn.localDescription), id: PEER_ID })
@@ -86,7 +83,6 @@ export async function join(id: string, messageProcessor: (message: any) => void)
         peerConn.ondatachannel = (e) => {
             const dataChannel = e.channel
             dataChannel.onopen = (e) => {
-                console.log('Say things with say("hi")')
                 dataChannel.send(JSON.stringify({ type: 'startMe' }))
                 resolve(dataChannel)
             }
@@ -96,14 +92,12 @@ export async function join(id: string, messageProcessor: (message: any) => void)
 
         peerConn.onicecandidate = (e) => {
             if (e.candidate == null) {
-                console.log('Get the creator to call: gotAnswer(', JSON.stringify(peerConn.localDescription), ')')
                 fetch('/api/update', {
                     method: 'POST',
                     body: JSON.stringify({ answerData: JSON.stringify(peerConn.localDescription), id: PEER_ID })
                 })
             }
         }
-        console.log(JSON.parse(offer))
         const offerDesc = new RTCSessionDescription(JSON.parse(offer))
         peerConn.setRemoteDescription(offerDesc)
         peerConn.createAnswer({})

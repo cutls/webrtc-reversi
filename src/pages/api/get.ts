@@ -24,7 +24,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     const series = await db.collection('webrtc').doc(seriesId).get()
     const seriesDoc = series.data()
     const data = seriesDoc?.data
-    console.log('get',from,  seriesId, seriesDoc)
 	//res.status(200).setHeader('Access-Control-Allow-Origin', 'https://revertc.vercel.app').json({ data })
     res.status(200).json(seriesDoc)
 }

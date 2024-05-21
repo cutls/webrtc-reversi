@@ -109,7 +109,6 @@ export default function Home() {
   useEffect(() => { init() }, [id])
   useEffect(() => pass(), [turn])
   useEffect(() => {
-    //console.log(timer?.timer)
     if (timer?.timer === 0) pass(true)
     channel?.send(JSON.stringify({ type: 'timer', data: { timer } }))
   }, [timer])

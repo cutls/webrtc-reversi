@@ -9,7 +9,6 @@ type Data = {
 }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
-    console.log('update', req.body)
     const body = JSON.parse(req.body)
     const { data, id } = body
     if (admin.apps.length === 0) {
@@ -22,7 +21,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         })
     }
     const db = getFirestore()
-    console.log(id, data)
     const series = await db.collection('webrtc').doc(id).get()
     if (series.exists) {
         if (!body.answerData) body.answerData = null
