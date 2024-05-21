@@ -24,8 +24,8 @@ export default function Footer({ config, setConfig, start }: IProps) {
             </FormControl>
             <Text fontSize={12}>先手が黒になります。</Text>
             <FormControl display="flex" alignItems="center" mt={3}>
-                <Switch id="masterAndIsBlack" isChecked={config.showPlaceable} onChange={(e) => setConfig({ ...config, masterAndIsBlack: !!e.target.checked })} />
-                <FormLabel htmlFor="masterAndIsBlack" mb={0}>
+                <Switch id="showPlaceable" isChecked={config.showPlaceable} onChange={(e) => setConfig({ ...config, masterAndIsBlack: !!e.target.checked })} />
+                <FormLabel htmlFor="showPlaceable" mb={0}>
                     石が置ける場所を表示
                 </FormLabel>
             </FormControl>
