@@ -1,15 +1,14 @@
 import '@/styles/globals.css'
+import { TimerProvider } from '@/utils/timer'
 import { ChakraProvider } from '@chakra-ui/react'
 import type { AppProps } from 'next/app'
-import { TimerProvider } from '@/utils/timer'
-
 
 export default function App({ Component, pageProps }: AppProps) {
-  return (
-    <TimerProvider>
-      <ChakraProvider>
-        <Component {...pageProps} />
-      </ChakraProvider>
-    </TimerProvider>
-  )
+	return (
+		<TimerProvider>
+			<ChakraProvider>
+				<Component {...pageProps} />
+			</ChakraProvider>
+		</TimerProvider>
+	)
 }
