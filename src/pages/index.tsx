@@ -2,12 +2,11 @@
 import Config from '@/components/Config'
 import Initial from '@/components/Initial'
 import Playing from '@/components/Playing'
-import { IBoard, IConfig, IMode, IState, fullZeroBoard, getZeroBoard, initBoard, initailConfig } from '@/type'
+import { type IBoard, type IConfig, type IMode, IState, fullZeroBoard, getZeroBoard, initBoard, initailConfig } from '@/type'
 import { isWinner, passCheck, reversi } from '@/utils/game'
 import { TimerContext } from '@/utils/timer'
 import { create, join } from '@/utils/webrtc'
 import { Alert, Box, AlertIcon, Container, Flex, Input, Progress, Text, Button } from '@chakra-ui/react'
-import { clear } from 'console'
 import Head from 'next/head'
 import { useSearchParams } from 'next/navigation'
 import { useContext, useEffect, useState } from 'react'
@@ -122,7 +121,7 @@ export default function Home() {
     const newOne = structuredClone(board)
     newOne[x][y] = turn
     const a = [-1, 0, 1]
-    for (let dx of a) for (let dy of a) reversi(config.rows, x, y, dx, dy, turn, newOne, true)
+    for (const dx of a) for (const dy of a) reversi(config.rows, x, y, dx, dy, turn, newOne, true)
     setBoard(newOne)
     setTurn(turn === 1 ? 2 : 1)
     timer?.cancelTimer()

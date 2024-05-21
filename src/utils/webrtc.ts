@@ -1,7 +1,13 @@
 import { v4 as uuid } from 'uuid'
 const client = typeof window !== 'undefined'
+const icsJson = JSON.parse(process.env.ICS_JSON || '[')
 const rpc = client ? window.RTCPeerConnection || (window as any).mozRTCPeerConnection || (window as any).webkitRTCPeerConnection || (window as any).msRTCPeerConnection : null
-const peerConn = rpc ? new rpc({ iceServers: [{ 'urls': ['stun:stun.l.google.com:19302'] }] }) : undefined
+const peerConn = rpc ? new rpc({
+    iceServers: [
+        { urls: ['stun:stun.l.google.com:19302'] },
+        ...icsJson
+    ]
+}) : undefined
 const id = uuid()
 console.log('Call create(), or join("some offer")')
 export async function create(messageProcessor: (message: any) => void) {
@@ -13,9 +19,9 @@ export async function create(messageProcessor: (message: any) => void) {
         const say = (msg: string) => dataChannel?.send(msg)
         if (!dataChannel) return console.error('No data channel')
         if (!peerConn) return console.error('No peer channel')
-        const gotAnswer = (answer: RTCSessionDescriptionInit) => {
-            console.log('Initializing ...', answer)
-            if (typeof answer === 'string') answer = JSON.parse(answer)
+        const gotAnswer = (answerRaw: RTCSessionDescriptionInit) => {
+            console.log('Initializing ...', answerRaw)
+            const answer = typeof answerRaw === 'string' ? JSON.parse(answerRaw) : answerRaw
             peerConn.setRemoteDescription(new RTCSessionDescription(answer))
         }
         dataChannel.onopen = (e) => {
@@ -36,8 +42,8 @@ export async function create(messageProcessor: (message: any) => void) {
                     method: 'POST',
                     body: JSON.stringify({ data: JSON.stringify(peerConn.localDescription), id: PEER_ID })
                 })
-                let timer = setInterval(async () => {
-                    const gotApi = await fetch(`/api/get`, {
+                const timer = setInterval(async () => {
+                    const gotApi = await fetch('/api/get', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
@@ -61,12 +67,12 @@ export async function create(messageProcessor: (message: any) => void) {
 }
 
 export async function join(id: string, messageProcessor: (message: any) => void) {
-
+    // biome-ignore lint/suspicious/noAsyncPromiseExecutor: <explanation>
     return new Promise<RTCDataChannel>(async (resolve, reject) => {
         const PEER_ID = id
         console.log("Joining ...")
         if (!peerConn) return console.error('No peer channel')
-        const gotApi = await fetch(`/api/get`, {
+        const gotApi = await fetch('/api/get', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
